@@ -30,11 +30,11 @@ namespace cs_blogger.Controllers
 
 
         [HttpGet("{id}")]
-        public ActionResult<Profile> GetById(string id)
+        public ActionResult<Account> GetById(string id)
         {
             try
             {
-                Profile found = _service.GetById(id);
+                Account found = _service.GetById(id);
                 return Ok(found);
             }
             catch (Exception e)

@@ -10,22 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace cs_blogger.Controllers
 {
     [ApiController]
-    [Route("[controller")]
+    [Route("[controller]")]
 
-    [Authorize]
+    // [Authorize]
     // STUB[epic=Auth] Adds Authguard to all routes on the whole controller
 
     public class AccountController : ControllerBase
     {
         private readonly AccountsService _service;
 
+
+
         public AccountController(AccountsService service)
         {
             _service = service;
         }
 
-        [HttpGet]
 
+
+        [HttpGet]
         public async Task<ActionResult<Account>> Get()
         // NOTE asyncronous actions must include "Task" before ActionResult
         {

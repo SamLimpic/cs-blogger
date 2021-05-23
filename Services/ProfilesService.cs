@@ -18,9 +18,9 @@ namespace cs_blogger.Services
 
 
 
-        internal Profile GetById(string id)
+        internal Account GetById(string id)
         {
-            Profile profile = _repo.GetById(id);
+            Account profile = _repo.GetById(id);
             if (profile == null)
             {
                 throw new Exception("Invalid Profile Id");

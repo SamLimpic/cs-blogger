@@ -108,7 +108,6 @@ namespace cs_blogger
             // TODO[epic=Auth] Add Authenentication so bearer gets validated
             app.UseAuthentication();
 
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -20,10 +20,10 @@ namespace cs_blogger.Repositories
 
 
 
-        internal Profile GetById(string Id)
+        internal Account GetById(string Id)
         {
             string sql = "SELECT * FROM profiles WHERE id = @id";
-            return _db.QueryFirstOrDefault<Profile>(sql, new { Id });
+            return _db.QueryFirstOrDefault<Account>(sql, new { Id });
         }
 
 
@@ -37,7 +37,7 @@ namespace cs_blogger.Repositories
       FROM comments c
       JOIN profiles p ON c.creatorId = p.id
       WHERE id = @id";
-            return _db.Query<Comment, Profile, Comment>(sql, (comment, profile) =>
+            return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
             {
                 return comment;
             }
@@ -55,7 +55,7 @@ namespace cs_blogger.Repositories
       FROM blogs b
       JOIN profiles p ON b.creatorId = p.id
       WHERE id = @id";
-            return _db.Query<Blog, Profile, Blog>(sql, (blog, profile) =>
+            return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
             {
                 return blog;
             }
