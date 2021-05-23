@@ -30,6 +30,13 @@ namespace cs_blogger.Services
 
 
 
+        internal IEnumerable<Comment> GetCommentsByCreatorId(string id)
+        {
+            return _repo.GetCommentsByCreatorId(id);
+        }
+
+
+
         internal Comment Create(Comment newComment)
         {
             return _repo.Create(newComment);

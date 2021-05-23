@@ -2,6 +2,7 @@ namespace cs_blogger.Models
 {
     public class Account
     {
+
         public string Id { get; set; }
 
         public string Name { get; set; }

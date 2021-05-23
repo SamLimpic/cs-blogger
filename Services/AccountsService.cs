@@ -30,30 +30,6 @@ namespace cs_blogger.Services
 
 
 
-        internal IEnumerable<Blog> GetBlogsByAccountId(string id)
-        {
-            IEnumerable<Blog> blogs = _repo.GetBlogsByAccountId(id);
-            if (blogs == null)
-            {
-                throw new Exception("No blogs available!");
-            }
-            return blogs;
-        }
-
-
-
-        internal IEnumerable<Comment> GetCommentsByAccountId(string id)
-        {
-            IEnumerable<Comment> comments = _repo.GetCommentsByAccountId(id);
-            if (comments == null)
-            {
-                throw new Exception("No comments available!");
-            }
-            return comments;
-        }
-
-
-
         internal Account Update(Account edit)
         {
             Account original = edit;

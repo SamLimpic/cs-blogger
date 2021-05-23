@@ -18,12 +18,15 @@ namespace cs_blogger.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountsService _service;
+        private readonly BlogsService _blogService;
+        private readonly CommentsService _commentService;
 
 
-
-        public AccountController(AccountsService service)
+        public AccountController(AccountsService service, BlogsService blogService, CommentsService commentService)
         {
             _service = service;
+            _blogService = blogService;
+            _commentService = commentService;
         }
 
 
@@ -48,12 +51,12 @@ namespace cs_blogger.Controllers
 
 
 
-        [HttpGet("/blogs")]
-        public ActionResult<IEnumerable<Blog>> GetBlogsByAccountId(string id)
+        [HttpGet("blogs")]
+        public ActionResult<IEnumerable<Blog>> GetBlogsByCreatorId(string id)
         {
             try
             {
-                IEnumerable<Blog> blogs = _service.GetBlogsByAccountId(id);
+                IEnumerable<Blog> blogs = _blogService.GetBlogsByCreatorId(id);
                 return Ok(blogs);
             }
             catch (Exception e)
@@ -64,12 +67,12 @@ namespace cs_blogger.Controllers
 
 
 
-        [HttpGet("/comments")]
-        public ActionResult<IEnumerable<Comment>> GetCommentsByAccountId(string id)
+        [HttpGet("comments")]
+        public ActionResult<IEnumerable<Comment>> GetCommentsByCreatorId(string id)
         {
             try
             {
-                IEnumerable<Comment> comments = _service.GetCommentsByAccountId(id);
+                IEnumerable<Comment> comments = _commentService.GetCommentsByCreatorId(id);
                 return Ok(comments);
             }
             catch (Exception e)

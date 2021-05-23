@@ -37,6 +37,13 @@ namespace cs_blogger.Services
 
 
 
+        internal IEnumerable<Blog> GetBlogsByCreatorId(string id)
+        {
+            return _repo.GetBlogsByCreatorId(id);
+        }
+
+
+
         internal IEnumerable<Comment> GetCommentsByBlogId(int id)
         {
             IEnumerable<Comment> comments = _repo.GetCommentsByBlogId(id);

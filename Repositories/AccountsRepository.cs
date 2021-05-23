@@ -39,44 +39,6 @@ namespace cs_blogger.Repositories
 
 
 
-        public IEnumerable<Comment> GetCommentsByAccountId(string id)
-        {
-            string sql = @"
-      SELECT 
-        c.*,
-        a.* 
-      FROM comments c
-      JOIN accounts a ON c.creatorId = a.id
-      WHERE id = @id";
-            return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
-            {
-                comment.Creator = account;
-                return comment;
-            }
-            , new { id }, splitOn: "id");
-        }
-
-
-
-        public IEnumerable<Blog> GetBlogsByAccountId(string id)
-        {
-            string sql = @"
-      SELECT 
-        b.*,
-        a.* 
-      FROM blogs b
-      JOIN accounts a ON b.creatorId = a.id
-      WHERE id = @id";
-            return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
-            {
-                blog.Creator = account;
-                return blog;
-            }
-            , new { id }, splitOn: "id");
-        }
-
-
-
         internal bool Update(Account original)
         {
             string sql = @"

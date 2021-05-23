@@ -42,6 +42,26 @@ namespace cs_blogger.Repositories
 
 
 
+        public IEnumerable<Comment> GetCommentsByCreatorId(string id)
+        {
+            string sql = @"
+      SELECT 
+        c.*,
+        a.* 
+      FROM comments c
+      JOIN accounts a ON c.creatorId = a.id
+      WHERE creatorId = @id";
+            return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
+            {
+                comment.Creator = account;
+                return comment;
+            }
+            , new { id }, splitOn: "id");
+        }
+
+
+
+
         public Comment Create(Comment newComment)
         {
             string sql = @"
