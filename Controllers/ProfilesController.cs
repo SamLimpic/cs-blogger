@@ -15,15 +15,18 @@ namespace cs_blogger.Controllers
     {
         private readonly ProfilesService _service;
 
-
+        private readonly BlogsService _blogService;
+        private readonly CommentsService _commentService;
 
         private readonly AccountsService _acctService;
 
 
 
-        public ProfilesController(ProfilesService service, AccountsService acctsService)
+        public ProfilesController(ProfilesService service, BlogsService blogsService, CommentsService commentsService, AccountsService acctsService)
         {
             _service = service;
+            _blogService = blogsService;
+            _commentService = commentsService;
             _acctService = acctsService;
         }
 
@@ -50,7 +53,7 @@ namespace cs_blogger.Controllers
         {
             try
             {
-                IEnumerable<Blog> blogs = _service.GetBlogsByProfileId(id);
+                IEnumerable<Blog> blogs = _blogService.GetBlogsByCreatorId(id);
                 return Ok(blogs);
             }
             catch (Exception e)
@@ -66,7 +69,7 @@ namespace cs_blogger.Controllers
         {
             try
             {
-                IEnumerable<Comment> comments = _service.GetCommentsByProfileId(id);
+                IEnumerable<Comment> comments = _commentService.GetCommentsByCreatorId(id);
                 return Ok(comments);
             }
             catch (Exception e)

@@ -35,10 +35,10 @@ namespace cs_blogger.Controllers
         public async Task<ActionResult<Account>> Get()
         // NOTE asyncronous actions must include "Task" before ActionResult
         {
-            // STUB[epic=Auth] Replaces req.userinfo
-            // NOTE HOW TO GET ACTIVE USERS
             try
             {
+                // STUB[epic=Auth] Replaces req.userinfo
+                // NOTE HOW TO GET ACTIVE USERS
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 Account currentUser = _service.GetOrCreateAccount(userInfo);
                 return Ok(currentUser);
@@ -52,11 +52,13 @@ namespace cs_blogger.Controllers
 
 
         [HttpGet("blogs")]
-        public ActionResult<IEnumerable<Blog>> GetBlogsByCreatorId(string id)
+        public async Task<ActionResult<IEnumerable<Blog>>> GetBlogsByCreatorId()
         {
             try
             {
-                IEnumerable<Blog> blogs = _blogService.GetBlogsByCreatorId(id);
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                Account currentUser = _service.GetOrCreateAccount(userInfo);
+                IEnumerable<Blog> blogs = _blogService.GetBlogsByCreatorId(currentUser.Id);
                 return Ok(blogs);
             }
             catch (Exception e)
@@ -68,11 +70,13 @@ namespace cs_blogger.Controllers
 
 
         [HttpGet("comments")]
-        public ActionResult<IEnumerable<Comment>> GetCommentsByCreatorId(string id)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsByCreatorId()
         {
             try
             {
-                IEnumerable<Comment> comments = _commentService.GetCommentsByCreatorId(id);
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                Account currentUser = _service.GetOrCreateAccount(userInfo);
+                IEnumerable<Comment> comments = _commentService.GetCommentsByCreatorId(currentUser.Id);
                 return Ok(comments);
             }
             catch (Exception e)
@@ -90,7 +94,7 @@ namespace cs_blogger.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 edit.Id = userInfo.Id;
-                Account update = _service.Update(edit);
+                Account update = _service.Update(edit, userInfo);
                 return Ok(update);
             }
             catch (Exception e)

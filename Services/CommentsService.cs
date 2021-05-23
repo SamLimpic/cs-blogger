@@ -47,6 +47,7 @@ namespace cs_blogger.Services
         internal Comment Update(Comment edit, string creatorId)
         {
             Comment original = GetById(edit.Id);
+            edit.CreatorId = creatorId;
             original.Body = edit.Body.Length > 0 ? edit.Body : original.Body;
 
             if (edit.CreatorId != creatorId)

@@ -25,16 +25,13 @@ namespace cs_blogger.Repositories
             string sql = @"
       SELECT 
         c.*,
-        a.*,
-        b.*
+        p.*
       FROM comments c
-      JOIN accounts a ON c.creatorId = a.id
-      JOIN blogs a ON c.blogId = b.id
-      WHERE id = @id";
-            return _db.Query<Comment, Account, Blog, Comment>(sql, (comment, account, blog) =>
+      JOIN profiles p ON c.creatorId = p.id
+      WHERE c.id = @id";
+            return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
             {
                 comment.Creator = account;
-                comment.Blog = blog;
                 return comment;
             }
             , new { id }, splitOn: "id").FirstOrDefault();
@@ -47,10 +44,10 @@ namespace cs_blogger.Repositories
             string sql = @"
       SELECT 
         c.*,
-        a.* 
+        p.* 
       FROM comments c
-      JOIN accounts a ON c.creatorId = a.id
-      WHERE creatorId = @id";
+      JOIN profiles p ON c.creatorId = p.id
+      WHERE c.creatorId = @id";
             return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
             {
                 comment.Creator = account;
@@ -66,9 +63,9 @@ namespace cs_blogger.Repositories
         {
             string sql = @"
       INSERT INTO comments
-      (creatorId, blogId, body)
+      (creatorId, blog, body)
       VALUES
-      (@CreatorId, @BlogId, @Body);
+      (@CreatorId, @Blog, @Body);
       SELECT LAST_INSERT_ID()";
             newComment.Id = _db.ExecuteScalar<int>(sql, newComment);
             return newComment;
@@ -80,7 +77,8 @@ namespace cs_blogger.Repositories
         {
             string sql = @"
             UPDATE comments
-            SET body = @Body";
+            SET body = @Body
+            WHERE id = @id";
             int affectedRows = _db.Execute(sql, original);
             return affectedRows == 1;
         }

@@ -27,29 +27,5 @@ namespace cs_blogger.Services
             }
             return profile;
         }
-
-
-
-        internal IEnumerable<Blog> GetBlogsByProfileId(string id)
-        {
-            IEnumerable<Blog> blogs = _repo.GetBlogsByProfileId(id);
-            if (blogs == null)
-            {
-                throw new Exception("No blogs available!");
-            }
-            return blogs;
-        }
-
-
-
-        internal IEnumerable<Comment> GetCommentsByProfileId(string id)
-        {
-            IEnumerable<Comment> comments = _repo.GetCommentsByProfileId(id);
-            if (comments == null)
-            {
-                throw new Exception("No comments available!");
-            }
-            return comments;
-        }
     }
 }

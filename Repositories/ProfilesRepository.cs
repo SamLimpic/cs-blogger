@@ -25,41 +25,5 @@ namespace cs_blogger.Repositories
             string sql = "SELECT * FROM profiles WHERE id = @id";
             return _db.QueryFirstOrDefault<Account>(sql, new { Id });
         }
-
-
-
-        public IEnumerable<Comment> GetCommentsByProfileId(string id)
-        {
-            string sql = @"
-      SELECT 
-        c.*,
-        p.* 
-      FROM comments c
-      JOIN profiles p ON c.creatorId = p.id
-      WHERE id = @id";
-            return _db.Query<Comment, Account, Comment>(sql, (comment, account) =>
-            {
-                return comment;
-            }
-            , new { id }, splitOn: "id");
-        }
-
-
-
-        public IEnumerable<Blog> GetBlogsByProfileId(string id)
-        {
-            string sql = @"
-      SELECT 
-        b.*,
-        p.* 
-      FROM blogs b
-      JOIN profiles p ON b.creatorId = p.id
-      WHERE id = @id";
-            return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
-            {
-                return blog;
-            }
-            , new { id }, splitOn: "id");
-        }
     }
 }

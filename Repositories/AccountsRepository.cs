@@ -18,10 +18,10 @@ namespace cs_blogger.Repositories
 
 
 
-        internal Account GetById(string Id)
+        internal Account GetById(string id)
         {
-            string sql = "SELECT * FROM accounts WHERE id = @id";
-            return _db.QueryFirstOrDefault<Account>(sql, new { Id });
+            string sql = "SELECT * FROM profiles WHERE id = @id";
+            return _db.QueryFirstOrDefault<Account>(sql, new { id });
         }
 
 
@@ -29,10 +29,10 @@ namespace cs_blogger.Repositories
         internal Account Create(Account userInfo)
         {
             string sql = @"
-            INSERT INTO accounts
+            INSERT INTO profiles
             (id, name, picture, email)
             VALUES
-            (@ID, @Name, @Picture, @Email)";
+            (@Id, @Name, @Picture, @Email)";
             _db.Execute(sql, userInfo);
             return userInfo;
         }
@@ -42,11 +42,11 @@ namespace cs_blogger.Repositories
         internal bool Update(Account original)
         {
             string sql = @"
-            UPDATE accounts
+            UPDATE profiles
             SET
                 name = @Name,
-                email = @Email,
-                picture = @Picture";
+                picture = @Picture
+            WHERE id = @id";
             int affectedRows = _db.Execute(sql, original);
             return affectedRows == 1;
         }

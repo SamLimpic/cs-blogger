@@ -47,7 +47,7 @@ namespace cs_blogger.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Comment>> Create([FromBody] Comment newComment, int blogId)
+        public async Task<ActionResult<Comment>> Create([FromBody] Comment newComment)
         {
             try
             {
@@ -56,7 +56,6 @@ namespace cs_blogger.Controllers
                 // safety to make sure an account exists for that user before CREATE-ing stuff.
                 Account fullAccount = _acctService.GetOrCreateAccount(userInfo);
                 newComment.CreatorId = userInfo.Id;
-                newComment.BlogId = blogId;
 
                 Comment comment = _service.Create(newComment);
                 //TODO[epic=Populate] adds the account to the new object as the creator

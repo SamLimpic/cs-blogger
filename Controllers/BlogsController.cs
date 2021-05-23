@@ -108,8 +108,8 @@ namespace cs_blogger.Controllers
         {
             try
             {
-                edit.Id = id;
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                edit.Id = id;
                 Blog update = _service.Update(edit, userInfo.Id);
                 return Ok(update);
             }

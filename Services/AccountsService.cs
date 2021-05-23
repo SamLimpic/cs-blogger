@@ -30,13 +30,16 @@ namespace cs_blogger.Services
 
 
 
-        internal Account Update(Account edit)
+        internal Account Update(Account edit, Account userInfo)
         {
-            Account original = edit;
+            Account original = _repo.GetById(userInfo.Id);
             original.Name = edit.Name.Length > 0 ? edit.Name : original.Name;
-            original.Email = edit.Email.Length > 0 ? edit.Email : original.Email;
             original.Picture = edit.Picture.Length > 0 ? edit.Picture : original.Picture;
 
+            if (edit.Id != userInfo.Id)
+            {
+                throw new Exception("You cannot edit another users Account");
+            }
             if (_repo.Update(original))
             {
                 return original;

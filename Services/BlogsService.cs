@@ -66,14 +66,12 @@ namespace cs_blogger.Services
         internal Blog Update(Blog edit, string creatorId)
         {
             Blog original = GetById(edit.Id);
+            edit.CreatorId = original.CreatorId;
             original.Title = edit.Title.Length > 0 ? edit.Title : original.Title;
             original.Body = edit.Body.Length > 0 ? edit.Body : original.Body;
             original.ImgUrl = edit.ImgUrl.Length > 0 ? edit.ImgUrl : original.ImgUrl;
 
-            if (edit.CreatorId != creatorId)
-            {
-                throw new Exception("You cannot edit another users Blog");
-            }
+
             if (_repo.Update(original))
             {
                 return original;

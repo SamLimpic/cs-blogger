@@ -25,9 +25,10 @@ namespace cs_blogger.Repositories
             string sql = @"
       SELECT
        b.*,
-       a.*
+       p.*
       FROM blogs b
-      JOIN accounts a ON b.creatorId = a.id;";
+      JOIN profiles p ON b.creatorId = p.id
+      WHERE b.published = 1";
             return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
             {
                 blog.Creator = account;
@@ -42,10 +43,10 @@ namespace cs_blogger.Repositories
             string sql = @"
       SELECT 
         b.*,
-        a.* 
+        p.* 
       FROM blogs b
-      JOIN accounts a ON b.creatorId = a.id
-      WHERE id = @id";
+      JOIN profiles p ON b.creatorId = p.id
+      WHERE b.id = @id";
             return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
             {
                 blog.Creator = account;
@@ -61,10 +62,11 @@ namespace cs_blogger.Repositories
             string sql = @"
       SELECT 
         b.*,
-        a.* 
+        p.* 
       FROM blogs b
-      JOIN accounts a ON b.creatorId = a.id
-      WHERE creatorId = @id";
+      JOIN profiles p ON b.creatorId = p.id
+      WHERE 
+        b.published = 1";
             return _db.Query<Blog, Account, Blog>(sql, (blog, account) =>
             {
                 blog.Creator = account;
@@ -82,11 +84,10 @@ namespace cs_blogger.Repositories
         c.*,
         b.* 
       FROM comments c
-      JOIN blogs b ON c.blogId = b.id
-      WHERE id = @id";
+      JOIN blogs b ON c.blog = b.id
+      WHERE c.blog = @id";
             return _db.Query<Comment, Blog, Comment>(sql, (comment, blog) =>
             {
-                comment.Blog = blog;
                 return comment;
             }
             , new { id }, splitOn: "id");
@@ -116,7 +117,8 @@ namespace cs_blogger.Repositories
                 title = @Title,
                 body = @Body,
                 imgUrl = @ImgUrl,
-                published = @Published";
+                published = @Published
+            WHERE id = @id";
             int affectedRows = _db.Execute(sql, original);
             return affectedRows == 1;
         }
