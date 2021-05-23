@@ -12,7 +12,7 @@ namespace cs_blogger.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    // [Authorize]
+    [Authorize]
     // STUB[epic=Auth] Adds Authguard to all routes on the whole controller
 
     public class AccountController : ControllerBase
