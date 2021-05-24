@@ -30,19 +30,18 @@ namespace cs_blogger.Services
 
 
 
-        internal Account Update(Account edit, Account userInfo)
+        internal Account Update(Account edit, Account currentUser)
         {
-            Account original = _repo.GetById(userInfo.Id);
-            original.Name = edit.Name.Length > 0 ? edit.Name : original.Name;
-            original.Picture = edit.Picture.Length > 0 ? edit.Picture : original.Picture;
+            currentUser.Name = edit.Name.Length > 0 ? edit.Name : currentUser.Name;
+            currentUser.Picture = edit.Picture.Length > 0 ? edit.Picture : currentUser.Picture;
 
-            if (edit.Id != userInfo.Id)
+            if (edit.Id != currentUser.Id)
             {
                 throw new Exception("You cannot edit another users Account");
             }
-            if (_repo.Update(original))
+            if (_repo.Update(currentUser))
             {
-                return original;
+                return currentUser;
             }
             throw new Exception("Something has gone wrong...");
         }

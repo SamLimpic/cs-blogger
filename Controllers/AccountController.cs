@@ -86,15 +86,16 @@ namespace cs_blogger.Controllers
         }
 
 
-
         [HttpPut]
         public async Task<ActionResult<Account>> Update([FromBody] Account edit)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                edit.Id = userInfo.Id;
-                Account update = _service.Update(edit, userInfo);
+                Account currentUser = _service.GetOrCreateAccount(userInfo);
+                edit.Email = currentUser.Email;
+                edit.Id = currentUser.Id;
+                Account update = _service.Update(edit, currentUser);
                 return Ok(update);
             }
             catch (Exception e)
