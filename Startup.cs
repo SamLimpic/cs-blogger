@@ -64,13 +64,13 @@ namespace cs_blogger
             services.AddControllers();
 
             // NOTE Transient Services
-            services.AddTransient<AccountsService>();
+            services.AddScoped<AccountsService>();
             services.AddTransient<ProfilesService>();
             services.AddTransient<BlogsService>();
             services.AddTransient<CommentsService>();
 
             // NOTE Transient Repo's 
-            services.AddTransient<AccountsRepository>();
+            services.AddScoped<AccountsRepository>();
             services.AddTransient<ProfilesRepository>();
             services.AddTransient<BlogsRepository>();
             services.AddTransient<CommentsRepository>();
